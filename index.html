@@ -60,7 +60,7 @@ section{display:none;flex:1;flex-direction:column}
 /* celebration */
 .heart{position:absolute;bottom:-30px;animation:up linear forwards;pointer-events:none}
 @keyframes up{to{transform:translateY(-520px) rotate(600deg);opacity:0}}
-.gif{width:180px;height:180px;border-radius:18px;overflow:hidden;box-shadow:0 16px 34px -12px rgba(108,59,176,.55);margin-bottom:22px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:84px}
+.gif{width:210px;height:210px;border-radius:18px;overflow:hidden;box-shadow:0 16px 34px -12px rgba(108,59,176,.55);margin-bottom:22px;background:var(--soft)}.gif img{width:100%;height:100%;object-fit:cover;display:block}
 /* cert */
 .cert{position:relative;width:100%;background:#fffdf8;border:2px solid var(--gold);border-radius:8px;padding:28px 20px 22px;font-size:12px;line-height:1.85;color:#40255f}
 .cert::before{content:'';position:absolute;inset:6px;border:1px solid #ecd49a;border-radius:4px}
@@ -69,7 +69,7 @@ section{display:none;flex:1;flex-direction:column}
 .bi{break-inside:avoid;margin-bottom:16px}.bi.full{column-span:all}
 .ph{background:#fffefd;padding:8px 8px 22px;border-radius:3px;box-shadow:0 12px 24px -10px rgba(108,59,176,.45);position:relative}
 .ph img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:var(--soft)}
-.cap{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);font:600 13px 'Dancing Script';color:var(--ad);white-space:nowrap}
+.ph.side{width:82%;margin:0 auto}.ph.side img{aspect-ratio:1}.clip{position:absolute;top:-12px;right:14px;font-size:20px;transform:rotate(14deg);z-index:2}.tape{position:absolute;width:44px;height:15px;background:rgba(233,216,253,.9);border:1px solid rgba(108,59,176,.15);top:-8px;left:50%;transform:translateX(-50%) rotate(-4deg);border-radius:2px;z-index:2}.cap{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);font:600 13px 'Dancing Script';color:var(--ad);white-space:nowrap}
 .note{background:#fbf6ff;border:1px solid var(--line);border-radius:10px;padding:13px 12px;font-size:10.5px;color:#5d3f86;line-height:1.6}
 .note h4{font:600 16px 'Dancing Script';color:var(--ad);text-align:center;margin-bottom:6px}
 .note li{list-style:none;margin-bottom:4px}.note li::before{content:'♛ ';color:var(--gold);font-size:9px}
@@ -108,13 +108,15 @@ html.viewer-boot #s-intake{display:none!important}html.viewer-boot #s-boot{displ
       </div><input type="file" id="file" accept="image/*" style="display:none" />
     </div>
     <div><div class="lbl">Your letter (shown after she says yes)</div>
-<textarea id="i-msg" class="inp" rows="7" style="resize:none">Every princess in every story had a castle, a crown and a whole kingdom looking out for her. You've got none of that on paper, but you have everything that matters — and to me you've always been royalty.
+<textarea id="i-msg" class="inp" rows="7" style="resize:none">Happy Princess Day.
 
-You make ordinary days feel like fairytales. You're kind when it's hard, brave when nobody's watching, and you wear it all so gracefully you don't even notice.
+Some people need a crown to feel royal. You just walk in, smile, and everything around you gets a little better.
 
-So today I wanted to remind you: you deserve the crown, the cake, and every single bit of the spoiling. I'm just lucky I get to be the one in your kingdom.
+Thank you for being soft when I'm a mess and strong when I need it. Today's yours: be dramatic, be spoiled, be adored.
 
-Yours, always.</textarea></div>
+Still the best thing that ever happened to me.
+
+Yours.</textarea></div>
   </div>
   <div id="ierr" style="display:none;color:#c62828;font-size:12px;margin-top:10px">Add both names and a message first.</div>
   <button class="btn" style="margin-top:20px;width:100%" onclick="preview()">Preview the Surprise →</button>
@@ -159,7 +161,7 @@ Yours, always.</textarea></div>
   <button id="eedit" class="bg sm back" onclick="goBack('s-intake')">← Edit</button>
   <div class="ttl fade" style="font-size:26px;margin-bottom:26px">A Royal Something</div>
   <div onclick="openEnv()" style="cursor:pointer;width:230px;height:150px;background:#fff6f0;border-radius:6px;position:relative;box-shadow:0 16px 30px -12px rgba(50,20,90,.35);overflow:hidden">
-    <img id="envp" style="width:100%;height:100%;object-fit:cover;opacity:.9;display:none" />
+    <img src="photo.jpeg" style="width:100%;height:100%;object-fit:cover;opacity:.9" />
     <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(246,239,255,.7),rgba(246,239,255,.2))"></div>
     <div id="flap" style="position:absolute;top:0;left:0;border-left:115px solid transparent;border-right:115px solid transparent;border-top:78px solid #e9d8fd;transform-origin:top;transition:transform .6s"></div>
     <div style="position:absolute;top:58px;left:50%;transform:translateX(-50%);width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f0d28c,#c08a2e);display:flex;align-items:center;justify-content:center;z-index:2;font-size:18px">👑</div>
@@ -180,13 +182,13 @@ Yours, always.</textarea></div>
   <div id="conf" style="position:absolute;inset:0;pointer-events:none"></div>
   <h1 class="ttl" style="font-size:23px;margin-bottom:10px;animation:pop 1.1s infinite">Yay! Her Majesty said YES! 👑</h1>
   <p class="sub" id="cmsg2" style="max-width:280px;margin-bottom:20px;line-height:1.65;color:#6b4a94"></p>
-  <div class="gif" id="gif">👸</div>
+  <div class="gif"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWw2cDgyeGowMjZ1YjFhbDU3ZmU0ejd3cm5rNjJwOWV3enU2MTBleCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ZUEaJDyaHNP5m/giphy.gif" alt="princess" /></div>
   <button class="btn" onclick="go('s-letter')">Continue →</button>
 </section>
 
 <section id="s-letter">
   <div style="display:flex;flex:1;min-height:0">
-    <div style="width:38%;background:linear-gradient(160deg,#cfb4f3,#9b5de5);display:flex;align-items:center;justify-content:center;font-size:64px;overflow:hidden"><img id="lph" style="width:100%;height:100%;object-fit:cover;display:none" /><span id="lemo">👑</span></div>
+    <div style="width:38%;position:relative;overflow:hidden;background:#cfb4f3"><img src="photo.jpeg" style="width:100%;height:100%;object-fit:cover;display:block" /></div>
     <div style="width:62%;padding:26px 20px 20px;display:flex;flex-direction:column">
       <div class="fd" style="font-size:19px;font-style:italic;font-weight:600;color:var(--ink);margin-bottom:6px">Dear <span id="ln"></span>,</div>
       <div style="width:34px;height:2px;background:var(--gold);margin-bottom:14px"></div>
@@ -218,12 +220,14 @@ Yours, always.</textarea></div>
   <div class="fs fade" style="font-size:22px;color:var(--ink);margin-bottom:4px">a kingdom of little moments</div>
   <div style="font-size:10.5px;letter-spacing:1px;color:var(--mut);text-transform:uppercase;margin-bottom:16px">pinned, just for her</div>
   <div class="mas">
-    <div class="bi"><div class="ph" style="transform:rotate(-4deg)"><img id="bp0" /><div class="cap">My Favorite Person</div></div></div>
+    <div class="bi"><div class="ph" style="transform:rotate(-4deg)"><span class="tape"></span><img id="bp0" /><div class="cap">My Favorite Person</div></div></div>
     <div class="bi" style="transform:rotate(2deg)"><div class="note"><h4>Why You're Royalty</h4><ul><li>You carry yourself with grace</li><li>You lift everyone around you</li><li>You're strong when it counts</li><li>You make my world a fairytale</li></ul></div></div>
-    <div class="bi"><div class="ph" style="transform:rotate(3deg)"><img id="bp1" /><div class="cap">My Happiness</div></div></div>
+    <div class="bi"><div class="ph side" style="transform:rotate(3deg)"><span class="clip">📎</span><img src="photo.jpeg" /><div class="cap">For my Princess</div></div></div>
+    <div class="bi"><div class="ph" style="transform:rotate(3deg)"><span class="clip">📎</span><img id="bp1" /><div class="cap">My Happiness</div></div></div>
     <div class="bi full" style="padding:0 4px"><div class="quote">Some people are born to wear crowns — you just wear yours with a smile.</div></div>
-    <div class="bi"><div class="ph" style="transform:rotate(-3deg)"><img id="bp2" /><div class="cap">You + Me</div></div></div>
+    <div class="bi"><div class="ph" style="transform:rotate(-3deg)"><span class="tape"></span><img id="bp2" /><div class="cap">You + Me</div></div></div>
     <div class="bi" style="transform:rotate(-2deg)"><div class="note"><h4>With You</h4><ul><li>I laugh a little louder</li><li>I worry a little less</li><li>I smile a lot more</li><li>I love a lot deeper</li></ul></div></div>
+    <div class="bi"><div class="ph side" style="transform:rotate(-2deg)"><span class="clip" style="right:auto;left:14px">📎</span><img src="photo1.jpeg" /><div class="cap">The Queen</div></div></div>
     <div class="bi full"><div class="rib">every day is Princess Day with you<b>Happy Princess Day 👑</b></div></div>
   </div>
   <div id="gact" style="display:flex;justify-content:space-between;margin-top:26px"><button class="bg" onclick="go('s-cert')">← Back</button><button class="btn" onclick="toPay()">Generate Link →</button></div>
@@ -256,7 +260,7 @@ $('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f||s
 const fmt=d=>(d?new Date(d):new Date()).toLocaleDateString(undefined,{day:'numeric',month:'long',year:'numeric'});
 function fill(to,from,q,msg,d){$('nsender').textContent=from;$('qt').textContent=`${q}\n${to} 👑`;$('qs').textContent=`From: ${from} 💌`;$('cmsg2').textContent=`Long live the princess, ${to}! 💜`;$('ln').textContent=to;$('ls').textContent=from;$('cr').textContent=to;$('cs').textContent=from;$('cq').textContent=`"${q}"`;$('cd').textContent=fmt(d)}
 function board(p){for(let i=0;i<N;i++)$('bp'+i).src=p[i]||'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="250"><rect width="200" height="250" fill="#f3e8ff"/><text x="100" y="140" font-size="60" text-anchor="middle">👑</text></svg>');
-const f=p.find(Boolean);if(f){$('lph').src=f;$('lph').style.display='block';$('lemo').style.display='none';$('envp').src=f;$('envp').style.display='block'}}
+}
 function preview(){const to=$('i-to').value.trim(),from=$('i-from').value.trim(),msg=$('i-msg').value.trim();if(!to||!from||!msg){$('ierr').style.display='block';return}$('ierr').style.display='none';let q=document.querySelector('input[name=pq]:checked').value;if(q==='custom')q=$('i-qc').value.trim()||'Will you be my princess?';Object.assign(st,{to,from,msg,q});resetQ();board(st.photos);fill(to,from,q,msg,new Date());go('s-notif')}
 /* payment */
 function toPay(){price=BASE;cp=null;$('price').textContent='₹'+price;$('capp').style.display='none';$('i-cp').value='';$('cerr').style.display='none';lbl();go('s-pay')}
