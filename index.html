@@ -161,7 +161,7 @@ Yours.</textarea></div>
   <button id="eedit" class="bg sm back" onclick="goBack('s-intake')">← Edit</button>
   <div class="ttl fade" style="font-size:26px;margin-bottom:26px">A Royal Something</div>
   <div onclick="openEnv()" style="cursor:pointer;width:230px;height:150px;background:#fff6f0;border-radius:6px;position:relative;box-shadow:0 16px 30px -12px rgba(50,20,90,.35);overflow:hidden">
-    <img src="photo.jpeg" style="width:100%;height:100%;object-fit:cover;opacity:.9" />
+    <img src="photo.jpg" data-b="photo" onerror="fb(this)" style="width:100%;height:100%;object-fit:cover;opacity:.9" />
     <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(246,239,255,.7),rgba(246,239,255,.2))"></div>
     <div id="flap" style="position:absolute;top:0;left:0;border-left:115px solid transparent;border-right:115px solid transparent;border-top:78px solid #e9d8fd;transform-origin:top;transition:transform .6s"></div>
     <div style="position:absolute;top:58px;left:50%;transform:translateX(-50%);width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f0d28c,#c08a2e);display:flex;align-items:center;justify-content:center;z-index:2;font-size:18px">👑</div>
@@ -188,7 +188,7 @@ Yours.</textarea></div>
 
 <section id="s-letter">
   <div style="display:flex;flex:1;min-height:0">
-    <div style="width:38%;position:relative;overflow:hidden;background:#cfb4f3"><img src="photo.jpeg" style="width:100%;height:100%;object-fit:cover;display:block" /></div>
+    <div style="width:38%;position:relative;overflow:hidden;background:#cfb4f3"><img src="photo.jpg" data-b="photo" onerror="fb(this)" style="width:100%;height:100%;object-fit:cover;display:block" /></div>
     <div style="width:62%;padding:26px 20px 20px;display:flex;flex-direction:column">
       <div class="fd" style="font-size:19px;font-style:italic;font-weight:600;color:var(--ink);margin-bottom:6px">Dear <span id="ln"></span>,</div>
       <div style="width:34px;height:2px;background:var(--gold);margin-bottom:14px"></div>
@@ -222,12 +222,12 @@ Yours.</textarea></div>
   <div class="mas">
     <div class="bi"><div class="ph" style="transform:rotate(-4deg)"><span class="tape"></span><img id="bp0" /><div class="cap">My Favorite Person</div></div></div>
     <div class="bi" style="transform:rotate(2deg)"><div class="note"><h4>Why You're Royalty</h4><ul><li>You carry yourself with grace</li><li>You lift everyone around you</li><li>You're strong when it counts</li><li>You make my world a fairytale</li></ul></div></div>
-    <div class="bi"><div class="ph side" style="transform:rotate(3deg)"><span class="clip">📎</span><img src="photo.jpeg" /><div class="cap">For my Princess</div></div></div>
+    <div class="bi"><div class="ph side" style="transform:rotate(3deg)"><span class="clip">📎</span><img src="photo.jpg" data-b="photo" onerror="fb(this)" /><div class="cap">For my Princess</div></div></div>
     <div class="bi"><div class="ph" style="transform:rotate(3deg)"><span class="clip">📎</span><img id="bp1" /><div class="cap">My Happiness</div></div></div>
     <div class="bi full" style="padding:0 4px"><div class="quote">Some people are born to wear crowns — you just wear yours with a smile.</div></div>
     <div class="bi"><div class="ph" style="transform:rotate(-3deg)"><span class="tape"></span><img id="bp2" /><div class="cap">You + Me</div></div></div>
     <div class="bi" style="transform:rotate(-2deg)"><div class="note"><h4>With You</h4><ul><li>I laugh a little louder</li><li>I worry a little less</li><li>I smile a lot more</li><li>I love a lot deeper</li></ul></div></div>
-    <div class="bi"><div class="ph side" style="transform:rotate(-2deg)"><span class="clip" style="right:auto;left:14px">📎</span><img src="photo1.jpeg" /><div class="cap">The Queen</div></div></div>
+    <div class="bi"><div class="ph side" style="transform:rotate(-2deg)"><span class="clip" style="right:auto;left:14px">📎</span><img src="photo1.jpg" data-b="photo1" onerror="fb(this)" /><div class="cap">The Queen</div></div></div>
     <div class="bi full"><div class="rib">every day is Princess Day with you<b>Happy Princess Day 👑</b></div></div>
   </div>
   <div id="gact" style="display:flex;justify-content:space-between;margin-top:26px"><button class="bg" onclick="go('s-cert')">← Back</button><button class="btn" onclick="toPay()">Generate Link →</button></div>
@@ -246,6 +246,8 @@ let st={to:'',from:'',msg:'',q:'',photos:[null,null,null]},slot=null,price=BASE,
 const $=id=>document.getElementById(id);
 /* deco */
 [[6,8],[90,6],[8,92],[92,90],[50,4],[4,50],[95,50],[50,96]].forEach(([x,y])=>{const s=document.createElement('span');s.style.left=x+'%';s.style.top=y+'%';s.textContent='👑';$('deco').appendChild(s)});
+/* static photo fallback: tries .jpg, .jpeg, .png, .webp */
+function fb(i){const l=['jpg','jpeg','png','webp'];const n=+(i.dataset.n||0)+1;if(n<l.length){i.dataset.n=n;i.src=i.dataset.b+'.'+l[n]}else i.style.visibility='hidden'}
 /* nav */
 function go(id){ALL.forEach(s=>$(s).style.display='none');const e=$(id);e.style.display='flex';e.classList.remove('fade');void e.offsetWidth;e.classList.add('fade');if(id==='s-letter')typeLetter(st.msg)}
 function resetEnv(){$('flap').style.transform='scaleY(1)';$('ehint').textContent='tap to open'}
