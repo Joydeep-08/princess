@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Princess Day 👑</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600;1,700&family=Dancing+Script:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function(){if(new URLSearchParams(location.search).get('id'))document.documentElement.classList.add('viewer-boot')})();
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--a:#9b5de5;--ad:#6c3bb0;--ink:#2d1650;--mut:#8f73b8;--line:#d9c6f3;--gold:#d4a24c;--soft:#f6efff}
+body{font-family:'Inter',sans-serif;background:#e4d3fa;min-height:100vh;display:flex;justify-content:center;padding:28px 14px 80px}
+.fd{font-family:'Playfair Display',serif}.fs{font-family:'Dancing Script',cursive}
+.frame{width:100%;max-width:460px;background:#4b2a7b;border-radius:22px;padding:16px;position:relative;align-self:flex-start;box-shadow:0 24px 60px -20px rgba(50,20,90,.55)}
+.frame-icons{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:22px;font-size:20px;opacity:.22}
+.frame-icons span{position:absolute;transform:translate(-50%,-50%)}
+.card{position:relative;z-index:1;background:#fffaf5;border-radius:16px;min-height:560px;display:flex;flex-direction:column;overflow:hidden}
+section{display:none;flex:1;flex-direction:column}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes pop{50%{transform:scale(1.035)}}
+.fade{animation:fu .5s both}
+.spinner{width:26px;height:26px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--a);animation:sp .8s linear infinite}
+.btn,.bg{padding:10px 26px;border-radius:24px;font:600 12px Inter;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border:1.5px solid var(--a);background:var(--a);color:#fff}
+.bg{background:transparent;color:var(--a)}
+.sm{padding:8px 16px;font-size:11px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.inp{width:100%;padding:9px 12px;border-radius:9px;border:1.5px solid var(--line);font:14px Inter;outline:none;background:#fffdfb}
+.inp:focus{border-color:var(--a)}
+.lbl{font-size:11px;color:var(--mut);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.ctr{align-items:center;justify-content:center;text-align:center;padding:36px 26px}
+.ttl{font-family:'Playfair Display';font-weight:700;color:var(--ink)}
+.sub{color:var(--mut);font-size:12.5px}
+.back{position:absolute;top:14px;left:14px;z-index:5}
+.qo{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;background:#fffdfb;font-size:13px;color:var(--ink)}
+.qo.on{border-color:var(--a);background:var(--soft)}.qo input{accent-color:var(--a)}
+.slot{border:1.5px dashed var(--line);border-radius:12px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;font-size:10px;color:var(--line)}
+.slot img{width:100%;height:100%;object-fit:cover}
+/* phone */
+.phone{flex:1;display:flex;flex-direction:column;align-items:center;background:linear-gradient(180deg,#e4d3fa,#cfb4f3);padding:26px 18px 30px}
+.clock{color:#fff;text-align:center;margin-bottom:22px;text-shadow:0 2px 6px rgba(60,20,110,.3)}
+.clock b{font:700 44px 'Playfair Display';display:block;line-height:1}.clock i{font:normal 12px Inter;letter-spacing:1px}
+.n{width:100%;max-width:320px;background:#fffaf5;border-radius:16px;padding:11px 13px;display:flex;gap:10px;margin-bottom:10px;box-shadow:0 10px 20px -10px rgba(60,20,110,.35);text-align:left}
+.n .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--soft)}
+.n small{display:block;font-size:9.5px;color:var(--mut);text-transform:uppercase}.n b{font-size:12.5px;color:var(--ink);display:block}.n span{font-size:11.5px;color:#5d3f86}
+.n.t{cursor:pointer;background:#f3e8ff;border:1.5px solid #b98cf0;animation:pop 1.6s infinite}.n.t .ic{background:var(--a)}
+/* question */
+.q{font:italic 700 22px 'Playfair Display';color:var(--ink);white-space:pre-line;line-height:1.35;margin-bottom:8px}
+.row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.yes{padding:13px 32px;border:0;border-radius:26px;background:var(--a);color:#fff;font:700 14px Inter;cursor:pointer;box-shadow:0 10px 24px -8px rgba(108,59,176,.6);transition:transform .15s}
+.yes:hover{transform:scale(1.07)}
+.no{position:fixed;z-index:220;padding:13px 32px;border:1.5px solid var(--a);border-radius:26px;background:#fffaf5;color:var(--a);font:700 14px Inter;cursor:pointer;transition:left .12s,top .12s}
+#toast{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:rgba(108,59,176,.95);color:#fff;padding:10px 20px;border-radius:24px;font:600 16px 'Dancing Script';z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;max-width:82vw;text-align:center}
+#toast.show{opacity:1}
+/* celebration */
+.heart{position:absolute;bottom:-30px;animation:up linear forwards;pointer-events:none}
+@keyframes up{to{transform:translateY(-520px) rotate(600deg);opacity:0}}
+.gif{width:180px;height:180px;border-radius:18px;overflow:hidden;box-shadow:0 16px 34px -12px rgba(108,59,176,.55);margin-bottom:22px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:84px}
+/* cert */
+.cert{position:relative;width:100%;background:#fffdf8;border:2px solid var(--gold);border-radius:8px;padding:28px 20px 22px;font-size:12px;line-height:1.85;color:#40255f}
+.cert::before{content:'';position:absolute;inset:6px;border:1px solid #ecd49a;border-radius:4px}
+/* board */
+.mas{column-count:2;column-gap:14px;padding:6px 4px;text-align:left}
+.bi{break-inside:avoid;margin-bottom:16px}.bi.full{column-span:all}
+.ph{background:#fffefd;padding:8px 8px 22px;border-radius:3px;box-shadow:0 12px 24px -10px rgba(108,59,176,.45);position:relative}
+.ph img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:var(--soft)}
+.cap{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);font:600 13px 'Dancing Script';color:var(--ad);white-space:nowrap}
+.note{background:#fbf6ff;border:1px solid var(--line);border-radius:10px;padding:13px 12px;font-size:10.5px;color:#5d3f86;line-height:1.6}
+.note h4{font:600 16px 'Dancing Script';color:var(--ad);text-align:center;margin-bottom:6px}
+.note li{list-style:none;margin-bottom:4px}.note li::before{content:'♛ ';color:var(--gold);font-size:9px}
+.quote{font:italic 13px 'Playfair Display';color:var(--ink);padding:16px 18px;background:#f3e8ff;border-radius:12px;line-height:1.65}
+.rib{background:var(--a);color:#fff;border-radius:10px;padding:12px;font-size:11px;text-align:center;line-height:1.6}
+.rib b{font:16px 'Dancing Script';display:block}
+.cur{display:inline-block;width:1.5px;height:12px;background:var(--a);margin-left:2px;animation:bl .9s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+html.viewer-boot #s-intake{display:none!important}html.viewer-boot #s-boot{display:flex!important}
+</style>
+</head>
+<body>
+<div class="frame" id="frame">
+<div class="frame-icons" id="deco"></div>
+<div class="card">
+
+<section id="s-boot" class="ctr"><div class="spinner" id="bspin"></div><div class="sub" id="btxt" style="margin-top:16px">Opening your surprise…</div><button class="btn sm" id="bretry" style="display:none;margin-top:18px" onclick="location.reload()">Retry</button></section>
+
+<section id="s-intake" class="fade" style="display:flex;padding:34px 26px">
+  <div class="ttl" style="font-size:24px;text-align:center;margin-bottom:4px">Happy Princess Day 👑</div>
+  <p class="sub" style="text-align:center;margin-bottom:22px">Build a royal little surprise in a minute.</p>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <input id="i-to" class="inp" placeholder="Her name" />
+    <input id="i-from" class="inp" placeholder="Your name" />
+    <div><div class="lbl">Pick your question</div>
+      <div id="qopts" style="display:flex;flex-direction:column;gap:8px">
+        <label class="qo on"><input type="radio" name="pq" value="Will you be my princess forever?" checked>Will you be my princess forever?</label>
+        <label class="qo"><input type="radio" name="pq" value="Do you know you're my queen?">Do you know you're my queen?</label>
+        <label class="qo"><input type="radio" name="pq" value="Will you let me treat you like royalty today?">Will you let me treat you like royalty today?</label>
+        <label class="qo"><input type="radio" name="pq" value="custom">Write your own…</label>
+      </div>
+      <input id="i-qc" class="inp" placeholder="Type your question…" maxlength="80" style="display:none;margin-top:8px" />
+    </div>
+    <div><div class="lbl">Three photos, for the board</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+        <div class="slot" data-i="0" onclick="pick(0)">photo 1</div><div class="slot" data-i="1" onclick="pick(1)">photo 2</div><div class="slot" data-i="2" onclick="pick(2)">photo 3</div>
+      </div><input type="file" id="file" accept="image/*" style="display:none" />
+    </div>
+    <div><div class="lbl">Your letter (shown after she says yes)</div>
+<textarea id="i-msg" class="inp" rows="7" style="resize:none">Every princess in every story had a castle, a crown and a whole kingdom looking out for her. You've got none of that on paper, but you have everything that matters — and to me you've always been royalty.
+
+You make ordinary days feel like fairytales. You're kind when it's hard, brave when nobody's watching, and you wear it all so gracefully you don't even notice.
+
+So today I wanted to remind you: you deserve the crown, the cake, and every single bit of the spoiling. I'm just lucky I get to be the one in your kingdom.
+
+Yours, always.</textarea></div>
+  </div>
+  <div id="ierr" style="display:none;color:#c62828;font-size:12px;margin-top:10px">Add both names and a message first.</div>
+  <button class="btn" style="margin-top:20px;width:100%" onclick="preview()">Preview the Surprise →</button>
+</section>
+
+<section id="s-pay" class="ctr" style="padding:34px 26px;justify-content:flex-start">
+  <div class="ttl" style="font-size:22px;margin-bottom:6px">Almost there</div>
+  <p class="sub" style="margin-bottom:26px">Unlock the link to send it to her.</p>
+  <div style="background:var(--soft);border-radius:14px;padding:20px;width:100%;margin-bottom:18px">
+    <div class="lbl" style="margin:0 0 6px">Total</div><div class="ttl" id="price" style="font-size:34px;color:var(--a)">₹99</div>
+    <div id="capp" style="display:none;font-size:11px;color:#4a8a5c;margin-top:4px"></div></div>
+  <div style="display:flex;gap:8px;width:100%;margin-bottom:6px"><input id="i-cp" class="inp" placeholder="Have a coupon code?" style="text-transform:uppercase" /><button class="bg sm" onclick="coupon()">Apply</button></div>
+  <div id="cerr" style="display:none;color:#c62828;font-size:12px">Invalid coupon code.</div>
+  <button id="paybtn" class="btn" style="margin-top:18px;width:100%" onclick="pay()">Pay & Get Link</button>
+  <button class="bg" style="margin-top:10px;width:100%" onclick="go('s-gal')">← Back</button>
+  <div id="ploading" style="display:none;align-items:center;gap:10px;margin-top:18px"><div class="spinner"></div><span id="ptxt" class="sub">Creating your surprise…</span></div>
+  <div id="pfail" style="display:none;background:var(--soft);border:1.5px solid var(--line);border-radius:12px;padding:14px;margin-top:18px;font-size:12px;color:#5d3f86">
+    <div style="margin-bottom:10px">Payment went through, but we hit a snag creating the link. Your payment is safe — just tap retry.</div><button class="btn" style="width:100%" onclick="retry()">Retry</button></div>
+</section>
+
+<section id="s-link" class="ctr">
+  <div class="ttl fade" style="font-size:22px;margin-bottom:10px">It's ready 👑</div>
+  <p class="sub" style="margin-bottom:20px">Copy this link and send it to her.</p>
+  <div style="display:flex;gap:8px;width:100%"><input id="olink" class="inp" readonly style="font-size:11px" /><button class="btn sm" onclick="copyLink()">Copy</button></div>
+  <div id="cmsg" style="display:none;color:#4a8a5c;font-size:11px;margin-top:8px">Copied!</div>
+  <button class="bg" style="margin-top:20px" onclick="go('s-notif')">Preview it</button>
+</section>
+
+<section id="s-notif">
+  <button id="nedit" class="bg sm back" onclick="go('s-intake')">← Edit</button>
+  <div class="phone">
+    <div class="clock"><b id="clk">9:41</b><i>Happy Princess Day</i></div>
+    <div class="n"><div class="ic">📦</div><div><small>Delivery · 2m</small><b>Your package</b><span>Out for delivery, arriving today</span></div></div>
+    <div class="n"><div class="ic">💧</div><div><small>Reminder · 6m</small><b>Hydration check</b><span>Drink some water, you forgot again</span></div></div>
+    <div class="n"><div class="ic">🎧</div><div><small>Music · 14m</small><b>Your playlist</b><span>Updated with 12 new tracks</span></div></div>
+    <div class="n t" onclick="go('s-env')"><div class="ic">👑</div><div><small>Now</small><b id="nsender">Someone</b><span>has a royal message for you 💜 tap to open</span></div></div>
+    <div class="fs" style="color:#fff;font-size:15px;margin-top:14px">tap the glowing one</div>
+  </div>
+</section>
+
+<section id="s-env" class="ctr">
+  <button id="eedit" class="bg sm back" onclick="goBack('s-intake')">← Edit</button>
+  <div class="ttl fade" style="font-size:26px;margin-bottom:26px">A Royal Something</div>
+  <div onclick="openEnv()" style="cursor:pointer;width:230px;height:150px;background:#fff6f0;border-radius:6px;position:relative;box-shadow:0 16px 30px -12px rgba(50,20,90,.35);overflow:hidden">
+    <img id="envp" style="width:100%;height:100%;object-fit:cover;opacity:.9;display:none" />
+    <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(246,239,255,.7),rgba(246,239,255,.2))"></div>
+    <div id="flap" style="position:absolute;top:0;left:0;border-left:115px solid transparent;border-right:115px solid transparent;border-top:78px solid #e9d8fd;transform-origin:top;transition:transform .6s"></div>
+    <div style="position:absolute;top:58px;left:50%;transform:translateX(-50%);width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f0d28c,#c08a2e);display:flex;align-items:center;justify-content:center;z-index:2;font-size:18px">👑</div>
+  </div>
+  <div class="fs" id="ehint" style="font-size:15px;color:var(--mut);margin-top:18px">tap to open</div>
+  <div style="font-size:10px;letter-spacing:2px;color:var(--line);text-transform:uppercase;margin-top:30px">designs by joy</div>
+</section>
+
+<section id="s-q" class="ctr" style="position:relative;padding:40px 24px">
+  <button class="bg sm back" onclick="goBack('s-env')">← Back</button>
+  <h1 class="q" id="qt"></h1><p class="sub" id="qs" style="margin-bottom:34px"></p>
+  <div class="row"><button class="yes" id="yes">Yes 👑</button><button class="no" id="no">No 😏</button></div>
+</section>
+<div id="toast"></div>
+
+<section id="s-cel" class="ctr" style="position:relative;overflow:hidden">
+  <button class="bg sm back" onclick="go('s-q')">← Back</button>
+  <div id="conf" style="position:absolute;inset:0;pointer-events:none"></div>
+  <h1 class="ttl" style="font-size:23px;margin-bottom:10px;animation:pop 1.1s infinite">Yay! Her Majesty said YES! 👑</h1>
+  <p class="sub" id="cmsg2" style="max-width:280px;margin-bottom:20px;line-height:1.65;color:#6b4a94"></p>
+  <div class="gif" id="gif">👸</div>
+  <button class="btn" onclick="go('s-letter')">Continue →</button>
+</section>
+
+<section id="s-letter">
+  <div style="display:flex;flex:1;min-height:0">
+    <div style="width:38%;background:linear-gradient(160deg,#cfb4f3,#9b5de5);display:flex;align-items:center;justify-content:center;font-size:64px;overflow:hidden"><img id="lph" style="width:100%;height:100%;object-fit:cover;display:none" /><span id="lemo">👑</span></div>
+    <div style="width:62%;padding:26px 20px 20px;display:flex;flex-direction:column">
+      <div class="fd" style="font-size:19px;font-style:italic;font-weight:600;color:var(--ink);margin-bottom:6px">Dear <span id="ln"></span>,</div>
+      <div style="width:34px;height:2px;background:var(--gold);margin-bottom:14px"></div>
+      <div id="lb" style="font-size:12.5px;line-height:22px;color:#40255f;flex:1;overflow-y:auto;white-space:pre-wrap;border-left:1.5px dashed var(--line);padding-left:10px;max-height:340px"><span id="lt"></span><span id="lc" class="cur"></span></div>
+      <div class="fd" style="font-style:italic;font-size:13px;color:var(--ad);margin-top:14px;text-align:right">— <span id="ls"></span></div>
+      <div style="display:flex;justify-content:space-between;margin-top:14px"><button class="bg sm" onclick="go('s-cel')">← Back</button><button class="btn sm" onclick="go('s-cert')">Next</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="s-cert" class="ctr" style="padding:30px 22px">
+  <div class="cert fade">
+    <div style="font-size:9.5px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Royal Decree</div>
+    <div class="ttl" style="font-style:italic;font-size:20px;margin-bottom:16px">Certificate of Princess-hood</div>
+    This is to certify that
+    <div class="fs" id="cr" style="font-size:22px;color:var(--ad);margin:4px 0"></div>
+    said <b>YES</b> to <span id="cs"></span>'s question:
+    <div class="fd" id="cq" style="font-style:italic;font-size:13px;color:var(--ink);margin:10px 0"></div>
+    and is hereby crowned Princess, officially, forever.
+    <div id="cd" style="font-size:10px;color:var(--mut);margin-top:14px"></div>
+    <div style="font-size:30px;margin-top:8px">👑</div>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;width:100%">
+    <button class="bg sm" onclick="go('s-letter')">← Back</button><button class="btn sm" onclick="dlCert()">Download 📜</button><button class="btn sm" onclick="go('s-gal')">Next</button>
+  </div>
+</section>
+
+<section id="s-gal" style="padding:28px 22px 24px;text-align:center;overflow-y:auto">
+  <div class="fs fade" style="font-size:22px;color:var(--ink);margin-bottom:4px">a kingdom of little moments</div>
+  <div style="font-size:10.5px;letter-spacing:1px;color:var(--mut);text-transform:uppercase;margin-bottom:16px">pinned, just for her</div>
+  <div class="mas">
+    <div class="bi"><div class="ph" style="transform:rotate(-4deg)"><img id="bp0" /><div class="cap">My Favorite Person</div></div></div>
+    <div class="bi" style="transform:rotate(2deg)"><div class="note"><h4>Why You're Royalty</h4><ul><li>You carry yourself with grace</li><li>You lift everyone around you</li><li>You're strong when it counts</li><li>You make my world a fairytale</li></ul></div></div>
+    <div class="bi"><div class="ph" style="transform:rotate(3deg)"><img id="bp1" /><div class="cap">My Happiness</div></div></div>
+    <div class="bi full" style="padding:0 4px"><div class="quote">Some people are born to wear crowns — you just wear yours with a smile.</div></div>
+    <div class="bi"><div class="ph" style="transform:rotate(-3deg)"><img id="bp2" /><div class="cap">You + Me</div></div></div>
+    <div class="bi" style="transform:rotate(-2deg)"><div class="note"><h4>With You</h4><ul><li>I laugh a little louder</li><li>I worry a little less</li><li>I smile a lot more</li><li>I love a lot deeper</li></ul></div></div>
+    <div class="bi full"><div class="rib">every day is Princess Day with you<b>Happy Princess Day 👑</b></div></div>
+  </div>
+  <div id="gact" style="display:flex;justify-content:space-between;margin-top:26px"><button class="bg" onclick="go('s-cert')">← Back</button><button class="btn" onclick="toPay()">Generate Link →</button></div>
+  <button id="grs" class="bg" style="margin-top:10px;width:100%" onclick="restart()">Start Over</button>
+</section>
+
+</div></div>
+
+<div id="x" style="display:none"></div>
+<script>
+const sb=supabase.createClient('https://sdllonxgnaxlyvtowfku.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNkbGxvbnhnbmF4bHl2dG93Zmt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUxMzk3OTQsImV4cCI6MjEwMDcxNTc5NH0.tn2vWiph6mAv7VKdM4Hl8_VtegmDbfTvZirxiZovL4M');
+const RZP='rzp_live_SmizRaPApu81ZS',BASE=99,COUPONS={FAHH:0,FAHH1:1,LOVE:59},TABLE='princess_flow',BUCKET='photos',PK='princess_pending_order_v1',N=3;
+const SARC=["Come on, just say yes na 🥺","The button ran away because it knows you want to say yes 😭","Try again… it's not gonna bite 😅","Even the button knows you're a princess 💀","The No button is scared of Your Majesty 😂","What if you just… said yes? 👀","Your heart said yes, your finger slipped 🤭","NO?? To a crown?? 😤","I'll wait. I'm very patient. 😇","This is a yes-only kingdom 🚫","Error 404: No button not found 😂","The No button just fled the palace 🏃"];
+const ALL=['s-boot','s-intake','s-pay','s-link','s-notif','s-env','s-q','s-cel','s-letter','s-cert','s-gal'];
+let st={to:'',from:'',msg:'',q:'',photos:[null,null,null]},slot=null,price=BASE,cp=null,si=0,tt=null,busy=false,lt=null;
+const $=id=>document.getElementById(id);
+/* deco */
+[[6,8],[90,6],[8,92],[92,90],[50,4],[4,50],[95,50],[50,96]].forEach(([x,y])=>{const s=document.createElement('span');s.style.left=x+'%';s.style.top=y+'%';s.textContent='👑';$('deco').appendChild(s)});
+/* nav */
+function go(id){ALL.forEach(s=>$(s).style.display='none');const e=$(id);e.style.display='flex';e.classList.remove('fade');void e.offsetWidth;e.classList.add('fade');if(id==='s-letter')typeLetter(st.msg)}
+function resetEnv(){$('flap').style.transform='scaleY(1)';$('ehint').textContent='tap to open'}
+function goBack(id){resetEnv();go(id)}
+function restart(){resetEnv();resetQ();go('s-intake')}
+/* intake */
+document.querySelectorAll('#qopts input').forEach(r=>r.addEventListener('change',()=>{document.querySelectorAll('.qo').forEach(x=>x.classList.remove('on'));r.closest('.qo').classList.add('on');$('i-qc').style.display=r.value==='custom'?'block':'none'}));
+function pick(i){slot=i;$('file').click()}
+function compress(f,m=720,q=.68){return new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=e=>{const im=new Image();im.onerror=no;im.onload=()=>{let w=im.width,h=im.height;if(w>h&&w>m){h=Math.round(h*m/w);w=m}else if(h>=w&&h>m){w=Math.round(w*m/h);h=m}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);ok(c.toDataURL('image/jpeg',q))};im.src=e.target.result};r.readAsDataURL(f)})}
+function toBlob(d){const[m,b]=d.split(',');const bin=atob(b),a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return new Blob([a],{type:m.match(/:(.*?);/)[1]})}
+$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f||slot===null)return;const el=document.querySelector(`.slot[data-i="${slot}"]`);el.textContent='optimizing…';try{const d=await compress(f);st.photos[slot]=d;el.innerHTML=`<img src="${d}">`}catch(x){el.textContent="couldn't read that — try another"}e.target.value=''});
+const fmt=d=>(d?new Date(d):new Date()).toLocaleDateString(undefined,{day:'numeric',month:'long',year:'numeric'});
+function fill(to,from,q,msg,d){$('nsender').textContent=from;$('qt').textContent=`${q}\n${to} 👑`;$('qs').textContent=`From: ${from} 💌`;$('cmsg2').textContent=`Long live the princess, ${to}! 💜`;$('ln').textContent=to;$('ls').textContent=from;$('cr').textContent=to;$('cs').textContent=from;$('cq').textContent=`"${q}"`;$('cd').textContent=fmt(d)}
+function board(p){for(let i=0;i<N;i++)$('bp'+i).src=p[i]||'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="250"><rect width="200" height="250" fill="#f3e8ff"/><text x="100" y="140" font-size="60" text-anchor="middle">👑</text></svg>');
+const f=p.find(Boolean);if(f){$('lph').src=f;$('lph').style.display='block';$('lemo').style.display='none';$('envp').src=f;$('envp').style.display='block'}}
+function preview(){const to=$('i-to').value.trim(),from=$('i-from').value.trim(),msg=$('i-msg').value.trim();if(!to||!from||!msg){$('ierr').style.display='block';return}$('ierr').style.display='none';let q=document.querySelector('input[name=pq]:checked').value;if(q==='custom')q=$('i-qc').value.trim()||'Will you be my princess?';Object.assign(st,{to,from,msg,q});resetQ();board(st.photos);fill(to,from,q,msg,new Date());go('s-notif')}
+/* payment */
+function toPay(){price=BASE;cp=null;$('price').textContent='₹'+price;$('capp').style.display='none';$('i-cp').value='';$('cerr').style.display='none';lbl();go('s-pay')}
+function lbl(){$('paybtn').textContent=price===0?'Get Link — Free':`Pay ₹${price} & Get Link`}
+function coupon(){const c=$('i-cp').value.trim().toUpperCase();if(!c||!(c in COUPONS)){$('cerr').style.display='block';return}$('cerr').style.display='none';cp=c;price=COUPONS[c];$('price').textContent='₹'+price;$('capp').style.display='block';$('capp').textContent=`"${c}" applied`;lbl()}
+const save=o=>{try{localStorage.setItem(PK,JSON.stringify(o))}catch(e){}},load=()=>{try{return JSON.parse(localStorage.getItem(PK))}catch(e){return null}},clr=()=>{try{localStorage.removeItem(PK)}catch(e){}};
+async function retryFn(fn,a=4,d=1000){let le;for(let i=0;i<a;i++){try{return await fn()}catch(e){le=e;if(i<a-1)await new Promise(r=>setTimeout(r,d*2**i+Math.random()*300))}}throw le}
+const order=pid=>({paymentId:pid,to:st.to,from:st.from,msg:st.msg,q:st.q,photos:st.photos,price,coupon:cp});
+function pay(){const b=$('paybtn');if(b.disabled)return;if(price===0){const o=order('free_'+crypto.randomUUID());save(o);finalize(o);return}
+if(!window.Razorpay){alert("Couldn't load the payment gateway. Check your connection and try again.");return}
+const r=new Razorpay({key:RZP,amount:price*100,currency:'INR',name:'Princess Day',description:`Surprise for ${st.to}`,handler:x=>{const o=order(x.razorpay_payment_id);save(o);finalize(o)},modal:{ondismiss:()=>b.disabled=false},theme:{color:'#9b5de5'}});
+r.on('payment.failed',x=>{b.disabled=false;alert("Payment didn't go through: "+(x.error&&x.error.description||'please try again.'))});r.open()}
+async function finalize(o){if(busy)return;busy=true;$('paybtn').disabled=true;$('pfail').style.display='none';$('ploading').style.display='flex';const T=t=>$('ptxt').textContent=t;
+try{T('Checking your order…');const ex=await retryFn(()=>sb.from(TABLE).select('*').eq('payment_id',o.paymentId).limit(1),2,700);let row=ex.data&&ex.data[0],urls;
+if(row)urls=[row.photo1,row.photo2,row.photo3];else{urls=[];for(let i=0;i<N;i++){if(!o.photos[i]){urls.push('');continue}T(`Uploading photo ${i+1} of ${N}…`);const p=crypto.randomUUID()+'.jpg',bl=toBlob(o.photos[i]);await retryFn(async()=>{const{error}=await sb.storage.from(BUCKET).upload(p,bl,{contentType:'image/jpeg'});if(error)throw error});urls.push(sb.storage.from(BUCKET).getPublicUrl(p).data.publicUrl)}
+T('Saving your surprise…');row=await retryFn(async()=>{const{data,error}=await sb.from(TABLE).insert({recipient:o.to,sender:o.from,message:o.msg,question:o.q,photo1:urls[0],photo2:urls[1],photo3:urls[2],price:o.price,coupon:o.coupon,payment_id:o.paymentId,paid:true}).select().single();if(error)throw error;return data})}
+$('olink').value=`${location.origin}${location.pathname}?id=${row.id}`;Object.assign(st,{to:o.to,from:o.from,msg:o.msg,q:o.q,photos:urls});board(urls);fill(o.to,o.from,o.q,o.msg,row.created_at);clr();go('s-link')
+}catch(e){console.error(e);$('pfail').style.display='block'}finally{busy=false;$('paybtn').disabled=false;$('ploading').style.display='none'}}
+function retry(){const o=load();if(!o){$('pfail').style.display='none';return}finalize(o)}
+function copyLink(){const i=$('olink');i.select();navigator.clipboard.writeText(i.value).then(()=>{$('cmsg').style.display='block';setTimeout(()=>$('cmsg').style.display='none',1800)})}
+/* envelope + question */
+function openEnv(){$('flap').style.transform='scaleY(0)';$('ehint').textContent='opening...';setTimeout(()=>go('s-q'),550)}
+function resetQ(){const b=$('no');b.style.left=b.style.top='';si=0}
+function runNo(){const b=$('no'),r=document.querySelector('.card').getBoundingClientRect(),p=14;const x0=r.left+p,x1=r.right-b.offsetWidth-p,y0=r.top+p,y1=r.bottom-b.offsetHeight-p;let x=x0+Math.random()*Math.max(0,x1-x0),y=y0+Math.random()*Math.max(0,y1-y0);
+const cl=parseFloat(b.style.left)||r.left+r.width/2,ct=parseFloat(b.style.top)||r.top+r.height/2;if(Math.hypot(x-cl,y-ct)<60){x+=x<(r.left+r.right)/2?60:-60;y+=y<(r.top+r.bottom)/2?60:-60;x=Math.min(Math.max(x,x0),x1);y=Math.min(Math.max(y,y0),y1)}
+b.style.left=x+'px';b.style.top=y+'px';const t=$('toast');t.textContent=SARC[si++%SARC.length];t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}
+(function(){const n=$('no');let last=0;const f=e=>{if(e)e.preventDefault();const t=Date.now();if(t-last<250)return;last=t;runNo()};n.addEventListener('mouseenter',f);n.addEventListener('touchstart',f,{passive:false});n.addEventListener('click',f);
+$('yes').addEventListener('click',()=>{go('s-cel');const l=$('conf');l.innerHTML='';const em=['👑','💜','✨','🌸','💖','⭐'];for(let i=0;i<14;i++){const c=document.createElement('div');c.className='heart';c.textContent=em[i%6];c.style.left=Math.random()*100+'%';c.style.fontSize=(16+Math.random()*12)+'px';c.style.animationDuration=(3+Math.random()*2)+'s';c.style.animationDelay=Math.random()*1.2+'s';l.appendChild(c)}})})();
+/* letter */
+function typeLetter(t){clearInterval(lt);$('lt').textContent='';$('lc').style.display='inline-block';const ch=Array.from(t||'');let i=0;lt=setInterval(()=>{$('lt').textContent+=ch[i++]||'';$('lb').scrollTop=$('lb').scrollHeight;if(i>=ch.length){clearInterval(lt);$('lc').style.display='none'}},24)}
+/* certificate pdf */
+function dlCert(){try{const d=new window.jspdf.jsPDF({orientation:'landscape',unit:'pt',format:[600,420]}),C=300;d.setDrawColor(212,162,76);d.setLineWidth(3);d.rect(15,15,570,390);d.setLineWidth(1);d.rect(24,24,552,372);
+d.setFont('times','italic');d.setFontSize(12);d.setTextColor(143,115,184);d.text('ROYAL DECREE — CERTIFICATE OF PRINCESS-HOOD',C,68,{align:'center'});
+d.setFont('times','bolditalic');d.setFontSize(20);d.setTextColor(45,22,80);d.text('This is to certify that',C,112,{align:'center'});
+d.setFontSize(28);d.setTextColor(108,59,176);d.text(st.to||'Her Majesty',C,150,{align:'center'});
+d.setFont('times','italic');d.setFontSize(13);d.setTextColor(64,37,95);d.text(`said YES to ${st.from||'someone'}'s question:`,C,182,{align:'center'});
+d.setFont('times','bolditalic');d.setFontSize(16);d.text(`"${st.q}"`,C,218,{align:'center',maxWidth:480});
+d.setFont('times','italic');d.setFontSize(12);d.text('and is hereby crowned Princess, officially, forever.',C,258,{align:'center'});
+d.text($('cd').textContent,C,330,{align:'center'});d.text('— '+(st.from||''),500,378,{align:'right'});d.save(`certificate-${(st.to||'princess').replace(/\s+/g,'_')}.pdf`)}catch(e){alert("Couldn't generate the certificate — try again.")}}
+/* clock */
+(function(){const u=()=>{const d=new Date();let h=d.getHours()%12||12;$('clk').textContent=h+':'+String(d.getMinutes()).padStart(2,'0')};u();setInterval(u,15000)})();
+/* viewer */
+(async function(){const id=new URLSearchParams(location.search).get('id');
+if(id){try{const{data,error}=await retryFn(()=>sb.from(TABLE).select('*').eq('id',id).eq('paid',true).single(),3,800);if(error||!data)throw error||0;document.documentElement.classList.remove('viewer-boot');
+Object.assign(st,{to:data.recipient,from:data.sender,msg:data.message,q:data.question,photos:[data.photo1,data.photo2,data.photo3]});fill(st.to,st.from,st.q,st.msg,data.created_at);board(st.photos);resetQ();
+$('gact').innerHTML='<button class="bg" onclick="go(\'s-cert\')">← Back</button>';$('grs').style.display='none';$('nedit').style.display='none';$('eedit').style.display='none';go('s-notif')}
+catch(e){$('bspin').style.display='none';$('btxt').textContent="Hmm, this link isn't loading. Check your connection and try again.";$('bretry').style.display='inline-block'}return}
+const o=load();if(o){Object.assign(st,{to:o.to,from:o.from,msg:o.msg,q:o.q,photos:o.photos});price=o.price;cp=o.coupon;$('price').textContent='₹'+price;lbl();go('s-pay');$('pfail').style.display='block'}})();
+</script>
+</body>
+</html>
